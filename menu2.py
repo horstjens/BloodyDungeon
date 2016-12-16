@@ -17,19 +17,12 @@ class Settings(object):
     menu = {"root":["Play","Difficulty", "Help", "Credits", "Options","Quit"],
 
                        "Options":["Turn music off","Turn sound off","Change screen resolution"],
-                       "Play":["Campaign", "Training missions"],
-                       "Training missions":["Practice Investigate", "Practice Torpedo attack", "Practice Deckgun attack", "Practice Escape", "Practice Navigate"],
-                       "Difficulty":["Islands", "Patrol boats", "Patrol planes", "Current", "Reef", "Nautical Intel", "Enemy Intel"],
+                       "Play":["Start the Nightmare!"],
+                       "Difficulty":["Easy","Normal","Hard","Hardcore"],
                        "Change screen resolution":["640x400", "720x480", "720x576", "800x640","1024x800", "1280x720", "1920x1080"],
                        "Credits":["Paolo Perfahl","Simon Heppner", "Horst Jens", "Soundeffects"],
                        "Help":["How to play", "How to win"],
-                       "Islands":["One big island", "A few medium islands", "mixed", "A few small islands", "None"],
-                       "Patrol boats":["Many agressive", "A few agressive", "Many peaceful", "A few peaceful", "None"],
-                       "Patrol planes":["Many agressive", "A few agressive", "Many peaceful", "A few peaceful", "None"],
-                       "Current":["Strong", "Medium", "Weak", "None"],
-                       "Reef":["Many", "Some", "Few", "None"],
-                       "Nautical Intel":["Excellent", "Medium", "Blind"],
-                       "Enemy Intel":["Excellent", "Medium", "Blind"]
+					   "Dungeon":["Ghost-Dungeon","Monster-Dungeon"],
                        }
 
 
@@ -164,7 +157,7 @@ class PygView(object):
                     #self.draw_text(i, 100, m.items.index(i)*30+10,(0,0,255))
             #else:
                 #self.draw_text(i, 100, m.items.index(i)*30+10)
-            self.draw_text(i, 100, m.items.index(i)*30+60)
+            self.draw_text(i, 160, m.items.index(i)*30+60)
 
     def run(self):
         """The mainloop
@@ -276,7 +269,7 @@ class PygView(object):
             self.draw_text("FPS: {:6.3}".format(self.clock.get_fps()))
                      
             #, self.playtime), color=(30, 120 ,18))
-            pygame.draw.line(self.screen,(random.randint(0,255),random.randint(0,255), random.randint(0,255)),(50,self.height - 80),(self.width -50,self.height - 80) ,3)
+            pygame.draw.line(self.screen,(random.randint(0,255),random.randint(0,255), random.randint(0,255)),(50,self.height - 80),(self.width + 100,self.height - 80) ,3)
             self.paint()
             pygame.display.flip()
             self.screen.blit(self.background, (0, 0))
@@ -284,7 +277,7 @@ class PygView(object):
         pygame.quit()
 
 
-    def draw_text(self, text ,x=50 , y=0,color=(255,0,0)):
+    def draw_text(self, text ,x=250 , y=0,color=(255,0,0)):
         if y==0:
             y= self.height - 50
 
