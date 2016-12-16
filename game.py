@@ -12,6 +12,34 @@ around
 import pygame 
 import math
 import random
+import os
+
+level1map= """
+######################################################
+######.###############################################
+#.#.#....##
+#...#...###
+#...#...###
+#........#
+#
+#
+#
+"""
+
+
+class Player(object):
+    def __init__(self, x, y, imagename="player.png"):
+        self.x=x
+        self.y=y
+        self.image=pygame.image.load(os.path.join("data", imagename))
+    
+    def update(self, seconds):
+        pass
+                
+    def blit(self, background):
+        """blit the Ball on the given background surface"""
+        background.blit(self.image, ( self.x, self.y))
+    
 
 
 class Ball(object):
@@ -119,6 +147,7 @@ class PygView(object):
         self.screen = pygame.display.set_mode((self.width, self.height), pygame.DOUBLEBUF)
         self.background = pygame.Surface(self.screen.get_size()).convert()  
         self.background.fill((255,255,255)) # fill background white
+        self.background=pygame.image.load(os.path.join("data","yannikbild1.png"))
         self.clock = pygame.time.Clock()
         self.fps = fps
         self.playtime = 0.0
@@ -128,17 +157,20 @@ class PygView(object):
     def paint(self):
         """painting on the surface"""
         # make an interesting background 
-        draw_examples(self.background)
+        # draw_examples(self.background)
         # create (non-pygame) Sprites. 
-        self.ball1 = Ball(x=100, y=100) # creating the Ball object (not a pygame Sprite)
-        self.ball2 = Ball(x=200, y=100) # create another Ball object (not a pygame Sprite)
-        self.ballgroup = [ self.ball1, self.ball2 ] # put all "Sprites" into this list
-        
+        # self.ball1 = Ball(x=100, y=100) # creating the Ball object (not a pygame Sprite)
+        # self.ball2 = Ball(x=200, y=100) # create another Ball object (not a pygame Sprite)
+        # self.ballgroup = [ self.ball1, self.ball2 ] # put all "Sprites" into this list
+        self.player1= Player(self.width/2, self.height/2)
+        self.playergroup = [self.player1, ]
 
 
     def run(self):
         """The mainloop"""
-        
+        self.mapdx = 0
+        self.mapdy = 0
+        self.delta = 60
         running = True
         while running:
             for event in pygame.event.get():
@@ -147,24 +179,46 @@ class PygView(object):
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         running = False
-                    if event.key == pygame.K_b:
-                        self.ballgroup.append(Ball()) # add balls!
+                    # if event.key == pygame.K_b:
+                       # self.ballgroup.append(Ball()) # add balls!
+                    if event.key == pygame.K_UP:
+                        self.mapdy += self.delta
+                        if self.mapdy >60:
+							self.mapdy = 60
+                        print(self.mapdx, self.mapdy)
+                    if event.key == pygame.K_DOWN:
+                        self.mapdy -= self.delta
+                        if self.mapdy < -390:
+							self.mapdy = -390
+                        print(self.mapdx, self.mapdy)
+                    if event.key == pygame.K_RIGHT:
+                        self.mapdx -= self.delta
+                        if self.mapdx < -690:
+							self.mapdx = -690
+                        print(self.mapdx, self.mapdy)
+                    if event.key == pygame.K_LEFT:
+						self.mapdx += self.delta
+						if self.mapdx > 240:
+							self.mapdx = 240
+						print(self.mapdx, self.mapdy)
             # end of event handler
             milliseconds = self.clock.tick(self.fps) #
             seconds = milliseconds / 1000
             self.playtime += seconds
             # delete everything on screen
-            self.screen.blit(self.background, (0, 0)) 
+            self.screen.blit(self.background, (self.mapdx, self.mapdy)) 
             # write text below sprites
-            write(self.screen, "FPS: {:6.3}  PLAYTIME: {:6.3} SECONDS".format(
-                           self.clock.get_fps(), self.playtime))
+            # write(self.screen, "FPS: {:6.3}  PLAYTIME: {:6.3} SECONDS".format(
+            #               self.clock.get_fps(), self.playtime))
             # not-pygame-sprites
-            for myball in self.ballgroup:
-                myball.update(seconds)
-            for myball in self.ballgroup:
-                myball.blit(self.screen)
+            #for myball in self.ballgroup:
+            #    myball.update(seconds)
+            #for myball in self.ballgroup:
+            #    myball.blit(self.screen)
+            for p in self.playergroup:
+                p.blit(self.screen)
             # write text over everything 
-            write(self.screen, "Press b to add another ball", x=self.width//2, y=250, center=True)
+            # write(self.screen, "Press b to add another ball", x=self.width//2, y=250, center=True)
             # next frame
             pygame.display.flip()
             
