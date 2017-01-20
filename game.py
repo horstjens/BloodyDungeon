@@ -20,6 +20,8 @@ class Player(object):
     def __init__(self, x, y, imagename="player.png"):
         self.x=x
         self.y=y
+        self.X = self.x
+        self.Y = self.y
         self.image=pygame.image.load(os.path.join("data", imagename))
     
     def update(self, seconds):
@@ -33,6 +35,8 @@ class Monster(object):
     def __init__(self, x, y, imagename="monster.png"):
         self.x=x
         self.y=y
+        self.X = self.x
+        self.Y = self.y
         self.image=pygame.image.load(os.path.join("data", imagename))
     
     #def move(self,mapdx,mapdy):
@@ -47,66 +51,7 @@ class Monster(object):
     
 
 
-class Ball(object):
-    """this is not a native pygame sprite but instead a pygame surface"""
-    def __init__(self, radius = 50, color=None, x=320, y=240, dx=None, dy=None):
-        """create a (black) surface and paint a blue ball on it"""
-        self.radius = radius
-        self.width = 2 * self.radius
-        self.height = 2 * self.radius
-        self.x = x
-        self.y = y
-        if color is None: # create random color if no color is given
-            color = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
-        else:
-            self.color = color
-        if dx is None:
-            self.dx = random.random() * 100 - 50 # from -50 to 50
-        else:
-            self.dx = dx
-        if dy is None:
-            self.dy = random.random() * 100 - 50
-        else:
-            self.dy = dy
 
-        # create a rectangular surface for the ball 50x50
-        self.surface = pygame.Surface((self.width,self.height))    
-        # pygame.draw.circle(Surface, color, pos, radius, width=0) # from pygame documentation
-        pygame.draw.circle(self.surface, color, (radius, radius), radius) # draw blue filled circle on ball surface
-        # left blue eye
-        pygame.draw.circle (self.surface, (0,0,200) , (radius //2 , radius //2), radius// 3)
-        # right yellow yey
-        pygame.draw.circle (self.surface, (255,255,0) , (3 * radius //2  , radius //2), radius// 3)
-        # grey mouth
-        pygame.draw.arc(self.surface, (32,32,32), (radius //2, radius, radius, radius//2), math.pi, 2*math.pi, 1)
-        # self.surface = self.surface.convert() # for faster blitting if no transparency is used. 
-        # to avoid the black background, make black the transparent color:
-        self.surface.set_colorkey((0,0,0))
-        self.surface = self.surface.convert_alpha() # faster blitting with transparent color
-        
-    def update(self, seconds):
-        """calculate movement, position and bouncing on edge"""
-        # time based movement
-        self.x += self.dx * seconds
-        self.y += self.dy * seconds
-        # bouncing on edge
-        # x,y is always the upper left corner of the rect
-        if self.x < 0:
-            self.x = 0
-            self.dx *= -1 
-        if self.y < 0:
-            self.y = 0
-            self.dy *= -1
-        if self.x + self.width > PygView.width:
-            self.x = PygView.width - self.width
-            self.dx *= -1
-        if self.y + self.height > PygView.height:
-            self.y = PygView.height - self.height
-            self.dy *= -1
-        
-    def blit(self, background):
-        """blit the Ball on the given background surface"""
-        background.blit(self.surface, ( self.x, self.y))
 
 def draw_examples(background):
     """painting on the background surface"""
@@ -185,6 +130,7 @@ class PygView(object):
         self.mapdx = 0
         self.mapdy = 0
         self.delta = 60
+        delta = self.delta
         running = True
         while running:
             for event in pygame.event.get():
@@ -196,38 +142,38 @@ class PygView(object):
                     # if event.key == pygame.K_b:
                        # self.ballgroup.append(Ball()) # add balls!
                     if event.key == pygame.K_UP:
-                        if self.mapdy + self.delta > 60:
-                            delta = 60 - self.mapdy
-                        else:
-                            delta = self.delta
+                        #if self.mapdy + self.delta > 60:
+                        #    delta = 60 - self.mapdy
+                        #else:
+                        #delta = self.delta
                         self.mapdy += delta
                         self.movemonsters(0,delta)
                    
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_DOWN:
-                        if self.mapdy - self.delta < -390:
-                            delta = -390 + self.mapdy
-                        else:
-                            delta = self.delta
+                        #if self.mapdy - self.delta < -390:
+                        #    delta = -390 + self.mapdy
+                        #else:
+                        #delta = self.delta
                         self.mapdy -= delta
                         self.movemonsters(0,-delta)
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_RIGHT:
-                        if self.mapdx - self.delta < -690:
-                            delta = -690 + self.mapdx
-                        else:
-                            delta = self.delta
+                        #if self.mapdx - self.delta < -690:
+                        #    delta = -690 + self.mapdx
+                        #else:
+                        #delta = self.delta
                         self.mapdx -= delta
                         self.movemonsters(-delta,0)
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_LEFT:
-                        if self.mapdx + self.delta > 240:
-                            delta = 240 - self.mapdx
-                        else:
-                            delta = self.delta
-                        self.mapdx = delta
+                        #if self.mapdx + self.delta > 240:
+                        #    delta = 240 - self.mapdx
+                        #else:
+                        #delta = self.delta
+                        self.mapdx += delta
                         self.movemonsters(delta,0)
                         
                         print(self.mapdx, self.mapdy)
