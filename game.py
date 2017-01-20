@@ -142,37 +142,37 @@ class PygView(object):
                     # if event.key == pygame.K_b:
                        # self.ballgroup.append(Ball()) # add balls!
                     if event.key == pygame.K_UP:
-                        #if self.mapdy + self.delta > 60:
-                        #    delta = 60 - self.mapdy
-                        #else:
-                        #delta = self.delta
+                        if self.mapdy + self.delta > 60:
+                            delta = 60 - self.mapdy
+                        else:
+                            delta = self.delta
                         self.mapdy += delta
                         self.movemonsters(0,delta)
                    
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_DOWN:
-                        #if self.mapdy - self.delta < -390:
-                        #    delta = -390 + self.mapdy
-                        #else:
-                        #delta = self.delta
+                        if self.mapdy - self.delta < -390:
+                            delta = -390 - self.mapdy
+                        else:
+                            delta = self.delta
                         self.mapdy -= delta
                         self.movemonsters(0,-delta)
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_RIGHT:
-                        #if self.mapdx - self.delta < -690:
-                        #    delta = -690 + self.mapdx
-                        #else:
-                        #delta = self.delta
+                        if self.mapdx - self.delta < -690:
+                            delta = -690 - self.mapdx
+                        else:
+                            delta = self.delta
                         self.mapdx -= delta
                         self.movemonsters(-delta,0)
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_LEFT:
-                        #if self.mapdx + self.delta > 240:
-                        #    delta = 240 - self.mapdx
-                        #else:
-                        #delta = self.delta
+                        if self.mapdx + self.delta > 240:
+                            delta = 240 - self.mapdx
+                        else:
+                            delta = self.delta
                         self.mapdx += delta
                         self.movemonsters(delta,0)
                         
@@ -205,3 +205,4 @@ class PygView(object):
 
 if __name__ == '__main__':
     PygView().run()
+
