@@ -14,17 +14,6 @@ import math
 import random
 import os
 
-level1map= """
-######################################################
-######.###############################################
-#.#.#....##
-#...#...###
-#...#...###
-#........#
-#
-#
-#
-"""
 
 
 class Player(object):
@@ -32,6 +21,22 @@ class Player(object):
         self.x=x
         self.y=y
         self.image=pygame.image.load(os.path.join("data", imagename))
+    
+    def update(self, seconds):
+        pass
+                
+    def blit(self, background):
+        """blit the Ball on the given background surface"""
+        background.blit(self.image, ( self.x, self.y))
+    
+class Monster(object):
+    def __init__(self, x, y, imagename="monster.png"):
+        self.x=x
+        self.y=y
+        self.image=pygame.image.load(os.path.join("data", imagename))
+    
+    #def move(self,mapdx,mapdy):
+        
     
     def update(self, seconds):
         pass
@@ -164,7 +169,16 @@ class PygView(object):
         # self.ballgroup = [ self.ball1, self.ball2 ] # put all "Sprites" into this list
         self.player1= Player(self.width/2, self.height/2)
         self.playergroup = [self.player1, ]
+        self.monster1=Monster(300,300)
+        self.monster2=Monster(400,300)
+        self.monstergroup=[self.monster1,self.monster2]
 
+
+    def movemonsters(self, dx, dy):
+        for m in self.monstergroup:
+                m.x += dx
+                m.y += dy
+              
 
     def run(self):
         """The mainloop"""
@@ -182,25 +196,41 @@ class PygView(object):
                     # if event.key == pygame.K_b:
                        # self.ballgroup.append(Ball()) # add balls!
                     if event.key == pygame.K_UP:
-                        self.mapdy += self.delta
-                        if self.mapdy >60:
-							self.mapdy = 60
+                        if self.mapdy + self.delta > 60:
+                            delta = 60 - self.mapdy
+                        else:
+                            delta = self.delta
+                        self.mapdy += delta
+                        self.movemonsters(0,delta)
+                   
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_DOWN:
-                        self.mapdy -= self.delta
-                        if self.mapdy < -390:
-							self.mapdy = -390
+                        if self.mapdy - self.delta < -390:
+                            delta = -390 + self.mapdy
+                        else:
+                            delta = self.delta
+                        self.mapdy -= delta
+                        self.movemonsters(0,-delta)
+                        
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_RIGHT:
-                        self.mapdx -= self.delta
-                        if self.mapdx < -690:
-							self.mapdx = -690
+                        if self.mapdx - self.delta < -690:
+                            delta = -690 + self.mapdx
+                        else:
+                            delta = self.delta
+                        self.mapdx -= delta
+                        self.movemonsters(-delta,0)
+                        
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_LEFT:
-						self.mapdx += self.delta
-						if self.mapdx > 240:
-							self.mapdx = 240
-						print(self.mapdx, self.mapdy)
+                        if self.mapdx + self.delta > 240:
+                            delta = 240 - self.mapdx
+                        else:
+                            delta = self.delta
+                        self.mapdx = delta
+                        self.movemonsters(delta,0)
+                        
+                        print(self.mapdx, self.mapdy)
             # end of event handler
             milliseconds = self.clock.tick(self.fps) #
             seconds = milliseconds / 1000
@@ -217,6 +247,8 @@ class PygView(object):
             #    myball.blit(self.screen)
             for p in self.playergroup:
                 p.blit(self.screen)
+            for m in self.monstergroup:
+                m.blit(self.screen)
             # write text over everything 
             # write(self.screen, "Press b to add another ball", x=self.width//2, y=250, center=True)
             # next frame
