@@ -38,18 +38,23 @@ class Viech(object):
             self.speed=random.randint(1,6)
         else:
             self.speed=spd
+        # --- standard attribute ---
+        self.hunger = 0
+           
+        
         
     def show(self):
         txt=""
-        atts=[x for x in dir(self) if not "__" in x]
+        atts=[x for x in dir(self) if not "__" in x 
+              and not "show" in x and not "book" in x]
         for a in atts:
             txt+= "{}: {}\n".format(a, self.__getattribute__(a))
         print(txt)
         return txt
-        
+
 yannik=Viech(hp=66, att=12, df=3, dmg=4, arm=1)
 yannik.show()
-niklas=Viech(hp=33, att=24, df=6, dmg=2, arm=1)
+niklas=Viech(hp=66, att=12, df=3, dmg=4, arm=1)
 niklas.show()
 
 
@@ -70,6 +75,26 @@ def strike(attacker, defender):
     else:
         print("Angriff misslungen!")
         
+wins = {"yannik":0, "niklas":0}
+originalhp_yannik = yannik.hitpoints
+originalhp_niklas = niklas.hitpoints
 
+for x in range(1000):
+	yannik.hitpoints = originalhp_yannik
+	niklas.hitpoints = originalhp_niklas
+	while yannik.hitpoints > 0 and niklas.hitpoints > 0:
+		strike(yannik, niklas)
+		if niklas.hitpoints > 0:
+			strike(niklas, yannik)
+	if yannik.hitpoints > 0:
+		wins["yannik"] += 1
+	else:
+		wins["niklas"] += 1
+
+print("100 Kämpfe fertig")
+print(wins)
+
+		
+	
         
         
