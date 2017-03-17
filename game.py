@@ -43,6 +43,43 @@ class Player(object):
     def blit(self, background):
         """blit the Ball on the given background surface"""
         background.blit(self.image, ( self.x, self.y))
+   
+class FlyingObject(pygame.sprite.Sprite):
+    number = 0
+    numbers = {}
+    
+    def __init__(self, bild, x, y, dx, dy):
+        self._layer = 5  # self.layer = layer
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.number = FlyingObject.number
+        FlyingObject.number += 1
+        FlyingObject.numbers[self.number] = self
+        self.image = bild
+        self.x = x
+        self.y = y
+        self.dx = dx
+        self.dy = dy
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
+        self.age = 0
+        self.width = self.rect.width
+        self.height = self.rect.height
+        
+    def update(self, seconds):
+        self.x += self.dx * seconds
+        self.y += self.dy * seconds 
+        self.age += seconds
+        
+        # kill if touching screen edge
+        if self.x + self.width //2 > PygView.width:
+            self.kill()
+        if self.x - self.width //2 < 0:
+            self.kill()
+        if self.y + self.height // 2 > PygView.height:
+            self.kill()
+        if self.y - self.height // 2 < 0:
+            self.kill()
+        
     
 class Monster(object):
     def __init__(self, x, y, imagename="monster.png"):
@@ -142,6 +179,9 @@ class PygView(object):
         self.monster1=Monster(300,300)
         self.monster2=Monster(400,300)
         self.monstergroup=[self.monster1,self.monster2]
+        self.allgroup = pygame.sprite.LayeredUpdates()
+        FlyingObject.groups = self.allgroup
+        # for drawing
 
 
     def movemonsters(self, dx, dy):
@@ -167,6 +207,14 @@ class PygView(object):
                 if event.type == pygame.QUIT:
                     running = False 
                 elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        FlyingObject(bild=self.feuerpfeil_ost, 
+                                     x=PygView.width // 2,
+                                     y=PygView.height // 2,
+                                     dx = 100,
+                                     dy = 0
+                                     )
+
                     if event.key == pygame.K_ESCAPE:
                         running = False
                     # if event.key == pygame.K_b:
