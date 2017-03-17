@@ -14,7 +14,18 @@ import math
 import random
 import os
 
-
+level1= [
+"######.#.########",
+"#@..#....w#######",
+"#...#...fww######",
+"#...#....w#######",
+"#........#.#.#...",
+"#.f.#..#.......#.",
+"#fff#.####.######",
+"#ff##############",
+"##f##############",
+"#################"
+]
 
 class Player(object):
     def __init__(self, x, y, imagename="player.png"):
@@ -98,6 +109,18 @@ class PygView(object):
         self.background = pygame.Surface(self.screen.get_size()).convert()  
         self.background.fill((255,255,255)) # fill background white
         self.background=pygame.image.load(os.path.join("data","yannikbild1.png"))
+        self.pfeil_nord=pygame.image.load(os.path.join("data","nord_missile-n.png"))
+        self.pfeil_ost=pygame.image.load(os.path.join("data","ost_missile-n.png"))
+        self.pfeil_süd=pygame.image.load(os.path.join("data","süd_missile-n.png"))
+        self.pfeil_west=pygame.image.load(os.path.join("data","west_missile-n.png"))
+        self.feuerpfeil_nord=pygame.image.load(os.path.join("data","nord_missile-fire-n.png"))
+        self.feuerpfeil_ost=pygame.image.load(os.path.join("data","ost_missile-fire-n.png"))
+        self.feuerpfeil_süd=pygame.image.load(os.path.join("data","süd_missile-fire-n.png"))
+        self.feuerpfeil_west=pygame.image.load(os.path.join("data","west_missile-fire-n.png"))
+        self.knochenpfeil_nord=pygame.image.load(os.path.join("data","nord_bone-n.png"))
+        self.knochenpfeil_ost=pygame.image.load(os.path.join("data","ost_bone-n.png"))
+        self.knochenpfeil_süd=pygame.image.load(os.path.join("data","süd_bone-n.png"))
+        self.knochenpfeil_west=pygame.image.load(os.path.join("data","west_bone-n.png"))
         self.clock = pygame.time.Clock()
         self.fps = fps
         self.playtime = 0.0
@@ -127,9 +150,11 @@ class PygView(object):
 
     def run(self):
         """The mainloop"""
-        self.mapdx = 0
-        self.mapdy = 0
         self.delta = 60
+        self.mapdx = 4* self.delta # 
+        self.mapdy = 1* self.delta #
+        self.fx=1
+        self.fy=1
         delta = self.delta
         running = True
         while running:
@@ -143,38 +168,62 @@ class PygView(object):
                        # self.ballgroup.append(Ball()) # add balls!
                     if event.key == pygame.K_UP:
                         if self.mapdy + self.delta > 60:
-                            delta = 60 - self.mapdy
+                        #    delta = 60 - self.mapdy
+                            pass
                         else:
                             delta = self.delta
-                        self.mapdy += delta
-                        self.movemonsters(0,delta)
+                        tile2go= level1[self.fy-1][self.fx]
+                        if tile2go in "#f":
+                            print("illegal move")
+                        else:
+                            self.mapdy += delta
+                            self.fy -=1
+                            self.movemonsters(0,delta)
                    
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_DOWN:
                         if self.mapdy - self.delta < -390:
-                            delta = -390 - self.mapdy
+                        #    delta = -390 - self.mapdy
+                            pass
                         else:
                             delta = self.delta
-                        self.mapdy -= delta
-                        self.movemonsters(0,-delta)
+                        tile2go= level1[self.fy+1][self.fx]
+                        if tile2go in "#f":
+                            print("illegal move")
+                        else:
+                            self.fy+=1
+                            self.mapdy -= delta
+                            self.movemonsters(0,-delta)
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_RIGHT:
                         if self.mapdx - self.delta < -690:
-                            delta = -690 - self.mapdx
+                        #    delta = -690 - self.mapdx
+                            pass
                         else:
                             delta = self.delta
-                        self.mapdx -= delta
-                        self.movemonsters(-delta,0)
+                        tile2go= level1[self.fy][self.fx+1]
+                        if tile2go in "#f":
+                            print("illegal move")
+                        else:
+                            self.fx+=1    
+                            self.mapdx -= delta
+                            self.movemonsters(-delta,0)
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_LEFT:
                         if self.mapdx + self.delta > 240:
-                            delta = 240 - self.mapdx
+                        #    delta = 240 - self.mapdx
+                            pass
                         else:
                             delta = self.delta
-                        self.mapdx += delta
-                        self.movemonsters(delta,0)
+                        tile2go= level1[self.fy][self.fx-1]
+                        if tile2go in "#fw":
+                            print("illegal move")
+                        else:
+                            self.fx-=1
+                            self.mapdx += delta
+                            self.movemonsters(delta,0)
                         
                         print(self.mapdx, self.mapdy)
             # end of event handler
