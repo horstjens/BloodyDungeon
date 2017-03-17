@@ -14,6 +14,18 @@ import math
 import random
 import os
 
+level1 = [
+"###########",
+"#@..#..",
+"#...#..",
+"#...#..",
+"#......",
+"#.f.#..",
+"#fff#.#",
+"#ff####",
+"##f####",
+"#######"]
+
 
 
 class Player(object):
@@ -127,9 +139,12 @@ class PygView(object):
 
     def run(self):
         """The mainloop"""
-        self.mapdx = 0
-        self.mapdy = 0
         self.delta = 60
+        self.mapdx = 4 * self.delta  #
+        self.mapdy = 1 * self.delta  #
+        self.fx = 1 # field of tilemap. 0,0 is left upper corner
+        self.fy = 1 
+        
         delta = self.delta
         running = True
         while running:
@@ -146,17 +161,28 @@ class PygView(object):
                             delta = 60 - self.mapdy
                         else:
                             delta = self.delta
-                        self.mapdy += delta
-                        self.movemonsters(0,delta)
-                   
+                        print(self.fx, self.fy)
+                        #print(level1[0])
+                        tile2go = level1[self.fy-1][self.fx]
+                        if tile2go in "#f":
+                            print("illegal move")
+                        else:
+                            self.mapdy += delta
+                            self.fy -= 1
+                            self.movemonsters(0,delta) 
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_DOWN:
                         if self.mapdy - self.delta < -390:
                             delta = -390 - self.mapdy
                         else:
                             delta = self.delta
-                        self.mapdy -= delta
-                        self.movemonsters(0,-delta)
+                        tile2go = level1[self.fy+1][self.fx]
+                        if tile2go in "#f":
+                            print("illegal move")
+                        else:                        
+                            self.fy += 1
+                            self.mapdy -= delta
+                            self.movemonsters(0,-delta)
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_RIGHT:
@@ -164,8 +190,13 @@ class PygView(object):
                             delta = -690 - self.mapdx
                         else:
                             delta = self.delta
-                        self.mapdx -= delta
-                        self.movemonsters(-delta,0)
+                        tile2go = level1[self.fy][self.fx+1]
+                        if tile2go in "#f":
+                            print("illegal move")
+                        else:
+                            self.fx += 1
+                            self.mapdx -= delta
+                            self.movemonsters(-delta,0)
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_LEFT:
@@ -173,8 +204,13 @@ class PygView(object):
                             delta = 240 - self.mapdx
                         else:
                             delta = self.delta
-                        self.mapdx += delta
-                        self.movemonsters(delta,0)
+                        tile2go = level1[self.fy][self.fx-1]
+                        if tile2go in "#f":
+                            print("illegal move")
+                        else:
+                            self.fx -= 1
+                            self.mapdx += delta
+                            self.movemonsters(delta,0)
                         
                         print(self.mapdx, self.mapdy)
             # end of event handler
