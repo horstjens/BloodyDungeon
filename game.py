@@ -70,6 +70,7 @@ class FlyingObject(pygame.sprite.Sprite):
         self.y += self.dy * seconds 
         self.age += seconds
         
+        
         # kill if touching screen edge
         if self.x + self.width //2 > PygView.width:
             self.kill()
@@ -79,6 +80,8 @@ class FlyingObject(pygame.sprite.Sprite):
             self.kill()
         if self.y - self.height // 2 < 0:
             self.kill()
+        # movement
+        self.rect.center = ( round(self.x, 0), round(self.y,0))
         
     
 class Monster(object):
@@ -202,6 +205,7 @@ class PygView(object):
 
         delta = self.delta
         running = True
+        self.lastdir = "up"
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -211,7 +215,7 @@ class PygView(object):
                         FlyingObject(bild=self.feuerpfeil_ost, 
                                      x=PygView.width // 2,
                                      y=PygView.height // 2,
-                                     dx = 100,
+                                     dx = 200,
                                      dy = 0
                                      )
 
@@ -219,7 +223,9 @@ class PygView(object):
                         running = False
                     # if event.key == pygame.K_b:
                        # self.ballgroup.append(Ball()) # add balls!
+                    
                     if event.key == pygame.K_UP:
+						self.lastdir = "up"
                         if self.mapdy + self.delta > 60:
                         #    delta = 60 - self.mapdy
                             pass
@@ -238,6 +244,7 @@ class PygView(object):
 
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_DOWN:
+						self.lastdir = "down"
                         if self.mapdy - self.delta < -390:
                         #    delta = -390 - self.mapdy
                             pass
@@ -255,6 +262,7 @@ class PygView(object):
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_RIGHT:
+						self.lastdir = "right"
                         if self.mapdx - self.delta < -690:
                         #    delta = -690 - self.mapdx
                             pass
@@ -272,6 +280,7 @@ class PygView(object):
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_LEFT:
+						self.lastdir = "left"
                         if self.mapdx + self.delta > 240:
                         #    delta = 240 - self.mapdx
                             pass
@@ -308,6 +317,10 @@ class PygView(object):
             # write text over everything 
             # write(self.screen, "Press b to add another ball", x=self.width//2, y=250, center=True)
             # next frame
+            # sprites
+            self.allgroup.update(seconds) 
+            self.allgroup.draw(self.screen)
+            
             pygame.display.flip()
             
         pygame.quit()
