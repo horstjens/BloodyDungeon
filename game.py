@@ -152,15 +152,15 @@ class PygView(object):
         self.background=pygame.image.load(os.path.join("data","yannikbild1.png"))
         self.pfeil_nord=pygame.image.load(os.path.join("data","nord_missile-n.png"))
         self.pfeil_ost=pygame.image.load(os.path.join("data","ost_missile-n.png"))
-        self.pfeil_süd=pygame.image.load(os.path.join("data","süd_missile-n.png"))
+        self.pfeil_sued=pygame.image.load(os.path.join("data","süd_missile-n.png"))
         self.pfeil_west=pygame.image.load(os.path.join("data","west_missile-n.png"))
         self.feuerpfeil_nord=pygame.image.load(os.path.join("data","nord_missile-fire-n.png"))
         self.feuerpfeil_ost=pygame.image.load(os.path.join("data","ost_missile-fire-n.png"))
-        self.feuerpfeil_süd=pygame.image.load(os.path.join("data","süd_missile-fire-n.png"))
+        self.feuerpfeil_sued=pygame.image.load(os.path.join("data","süd_missile-fire-n.png"))
         self.feuerpfeil_west=pygame.image.load(os.path.join("data","west_missile-fire-n.png"))
         self.knochenpfeil_nord=pygame.image.load(os.path.join("data","nord_bone-n.png"))
         self.knochenpfeil_ost=pygame.image.load(os.path.join("data","ost_bone-n.png"))
-        self.knochenpfeil_süd=pygame.image.load(os.path.join("data","süd_bone-n.png"))
+        self.knochenpfeil_sued=pygame.image.load(os.path.join("data","süd_bone-n.png"))
         self.knochenpfeil_west=pygame.image.load(os.path.join("data","west_bone-n.png"))
         self.clock = pygame.time.Clock()
         self.fps = fps
@@ -226,7 +226,7 @@ class PygView(object):
                                          dy = 0
                                          )
                         if self.lastdir == "down":
-                            FlyingObject(bild=self.feuerpfeil_süd, 
+                            FlyingObject(bild=self.feuerpfeil_sued, 
                                          x=PygView.width // 2,
                                          y=PygView.height // 2,
                                          dx = 0,
@@ -304,31 +304,31 @@ class PygView(object):
                                          dy = -14
                                          )                                                    
                         if self.lastdir == "down":
-                            FlyingObject(bild=self.feuerpfeil_süd,
+                            FlyingObject(bild=self.feuerpfeil_sued,
                                      x=PygView.width // 2,
                                      y=PygView.height // 2,
                                      dx = 14,
                                      dy = 200
                                      )
-                            FlyingObject(bild=self.feuerpfeil_süd,
+                            FlyingObject(bild=self.feuerpfeil_sued,
                                      x=PygView.width // 2,
                                      y=PygView.height // 2,
                                      dx = 7,
                                      dy = 200
                                      )
-                            FlyingObject(bild=self.feuerpfeil_süd,
+                            FlyingObject(bild=self.feuerpfeil_sued,
                                      x=PygView.width // 2,
                                      y=PygView.height // 2,
                                      dx = 0,
                                      dy = 200
                                      )
-                            FlyingObject(bild=self.feuerpfeil_süd,
+                            FlyingObject(bild=self.feuerpfeil_sued,
                                      x=PygView.width // 2,
                                      y=PygView.height // 2,
                                      dx = -7,
                                      dy = 200
                                      )
-                            FlyingObject(bild=self.feuerpfeil_süd,
+                            FlyingObject(bild=self.feuerpfeil_sued,
                                      x=PygView.width // 2,
                                      y=PygView.height // 2,
                                      dx = -14,
