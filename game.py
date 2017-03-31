@@ -162,6 +162,10 @@ class PygView(object):
         self.knochenpfeil_ost=pygame.image.load(os.path.join("data","ost_bone-n.png"))
         self.knochenpfeil_süd=pygame.image.load(os.path.join("data","süd_bone-n.png"))
         self.knochenpfeil_west=pygame.image.load(os.path.join("data","west_bone-n.png"))
+        self.eispfeil_nord=pygame.image.load(os.path.join("data","nord_icemissile-n-3.png"))
+        self.eispfeil_ost=pygame.image.load(os.path.join("data","ost_icemissile-n-3.png"))
+        self.eispfeil_süd=pygame.image.load(os.path.join("data","süd_icemissile-n-3.png"))
+        self.eispfeil_west=pygame.image.load(os.path.join("data","west_icemissile-n-3.png"))
         self.clock = pygame.time.Clock()
         self.fps = fps
         self.playtime = 0.0
@@ -178,7 +182,7 @@ class PygView(object):
         # self.ballgroup = [ self.ball1, self.ball2 ] # put all "Sprites" into this list
         self.player1= Player(self.width/2, self.height/2)
         self.playergroup = [self.player1, ]
-        self.monster1=Monster(300,300)
+        self.monster1=Monster(325,300)
         self.monster2=Monster(400,300)
         self.monstergroup=[self.monster1,self.monster2]
         self.allgroup = pygame.sprite.LayeredUpdates()
@@ -343,7 +347,25 @@ class PygView(object):
             
             if random.random() < 0.5:
                  FlyingObject(self.feuerpfeil_süd, 
-                              self.monster1.x+30, self.monster1.y+30, 0, 100)                                         
+                              self.monster1.x+30, self.monster1.y+30, 0, 100)  
+            if random.random() < 0.1:
+                bild = random.choice((self.eispfeil_süd, self.eispfeil_nord, self.eispfeil_ost, self.eispfeil_west))
+                if bild == self.eispfeil_süd:
+                    dx = random.randint(-10,10)
+                    dy = random.randint(50,100)
+                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy)
+                if bild == self.eispfeil_nord:
+                    dx = random.randint(-10,10)
+                    dy = random.randint(-100,-50)
+                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy)                                     
+                if bild == self.eispfeil_ost:
+                    dx = random.randint(50,100)
+                    dy = random.randint(-10,10)
+                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy)
+                if bild == self.eispfeil_west:
+                    dx = random.randint(-100,-50)
+                    dy = random.randint(-10,10)
+                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy)
             
             # end of event handler
             milliseconds = self.clock.tick(self.fps) #
