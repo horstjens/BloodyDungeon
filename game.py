@@ -344,7 +344,14 @@ class PygView(object):
             if random.random() < 0.5:
                  FlyingObject(self.feuerpfeil_süd, 
                               self.monster1.x+30, self.monster1.y+30, 0, 100)                                         
-            
+            if random.random() < 0.01:
+                bild = random.choice((self.feuerpfeil_süd, self.feuerpfeil_nord,
+                                     self.feuerpfeil_west, self.feuerpfeil_ost))
+                if bild == self.feuerpfeil_süd:
+                    dx = random.randint(-10,10)
+                    dy = random.randint(50,100)
+                    FlyingObject(bild, self.monster2.x, self.monster2.y, dx, dy)
+                
             # end of event handler
             milliseconds = self.clock.tick(self.fps) #
             seconds = milliseconds / 1000
