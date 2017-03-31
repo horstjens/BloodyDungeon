@@ -329,6 +329,11 @@ class PygView(object):
                             self.movemonsters(delta,0)
                         
                         print(self.mapdx, self.mapdy)
+            
+            if random.random() < 0.5:
+                 FlyingObject(self.feuerpfeil_süd, 
+                              self.monster1.x+30, self.monster1.y+30, 0, 100)                                         
+            
             # end of event handler
             milliseconds = self.clock.tick(self.fps) #
             seconds = milliseconds / 1000
