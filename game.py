@@ -210,42 +210,46 @@ class PygView(object):
                 if event.type == pygame.QUIT:
                     running = False 
                 elif event.type == pygame.KEYDOWN:
-                    x = PygView.width // 2 + 30
-                    y = PygView.height // 2 + 30 
+                    x = PygView.width // 2+ 30
+                    y =PygView.height // 2 + 30
                     if event.key == pygame.K_q:
                         if self.lastdir == "right":
                             FlyingObject(self.feuerpfeil_ost, 
-                                         x, y, 200, 0)
+                                         x-5, y-10, 200, 0
+                                         )
                         if self.lastdir == "left":
                             FlyingObject(self.feuerpfeil_west, 
-                                         x, y, -200, 0)
+                                         x-5, y-10, -200, 0
+                                         )
                         if self.lastdir == "down":
                             FlyingObject(self.feuerpfeil_süd, 
-                                         x, y, 0, 200)
+                                         x-5, y-10, 0, 200
+                                         )
                         if self.lastdir == "up":
                             FlyingObject(self.feuerpfeil_nord, 
-                                         x, y, 0, -200)
+                                         x-5, y-10, 0, -200
+                                         )
                     if event.key == pygame.K_w:
                         if self.lastdir == "right":
-                            for z in  (14, 7, 0, -7 -14):
-                                  FlyingObject(self.feuerpfeil_ost,
-                                         x, y, 200, z)                                         
-                                                      
-                        if self.lastdir == "left":  
-                            for z in  (14, 7, 0, -7 -14):
-                                  FlyingObject(self.feuerpfeil_west,
-                                         x, y, -200, z)                                 
-                            
+                            for z in (14, 7, 0, -7, -14):
+                                FlyingObject(self.feuerpfeil_ost,
+                                         x-5, y-10, 200, z
+                                         )                                                 
+                        if self.lastdir == "left":
+                            for z in (14, 7, 0, -7, -14):          
+                                FlyingObject(self.feuerpfeil_west,
+                                         x-5, y-10, -200, z
+                                         )                           
                         if self.lastdir == "down":
-                            for z in  (14, 7, 0, -7 -14):
-                                  FlyingObject(self.feuerpfeil_süd,
-                                         x, y, z, 200)                      
-                                                     
+                            for z in (14, 7, 0, -7, -14):
+                                FlyingObject(self.feuerpfeil_süd,
+                                     x-5, y-10, z, 200
+                                     )                      
                         if self.lastdir == "up":
-                            for z in  (14, 7, 0, -7 -14):
-                                  FlyingObject(self.feuerpfeil_nord,
-                                         x, y, z, -200)                      
-                            
+                            for z in (14, 7, 0, -7, -14):
+                                FlyingObject(self.feuerpfeil_nord,
+                                     x-5, y-10, z, -200
+                                     )                     
                                                            
                     if event.key == pygame.K_ESCAPE:
                         running = False
