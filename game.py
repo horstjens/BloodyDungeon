@@ -182,7 +182,9 @@ class PygView(object):
         self.monster2=Monster(400,300)
         self.monstergroup=[self.monster1,self.monster2]
         self.allgroup = pygame.sprite.LayeredUpdates()
-        FlyingObject.groups = self.allgroup
+        self.flygroup = pygame.sprite.Group() 
+        FlyingObject.groups = self.allgroup, self.flygroup
+        
         # for drawing
 
 
@@ -274,6 +276,8 @@ class PygView(object):
 
                             self.fy -= 1
                             self.movemonsters(0,delta) 
+                            for f in self.flygroup:
+                                f.y += delta
 
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_DOWN:
@@ -292,6 +296,8 @@ class PygView(object):
 
                             self.mapdy -= delta
                             self.movemonsters(0,-delta)
+                            for f in self.flygroup:
+                                f.y -= delta
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_RIGHT:
@@ -310,6 +316,9 @@ class PygView(object):
 
                             self.mapdx -= delta
                             self.movemonsters(-delta,0)
+                            for f in self.flygroup:
+                                f.x -= delta
+                            
                         
                         print(self.mapdx, self.mapdy)
                     if event.key == pygame.K_LEFT:
@@ -327,6 +336,8 @@ class PygView(object):
 
                             self.mapdx += delta
                             self.movemonsters(delta,0)
+                            for f in self.flygroup:
+                                f.x += delta
                         
                         print(self.mapdx, self.mapdy)
             
@@ -352,6 +363,8 @@ class PygView(object):
                 p.blit(self.screen)
             for m in self.monstergroup:
                 m.blit(self.screen)
+            
+                
             # write text over everything 
             # write(self.screen, "Press b to add another ball", x=self.width//2, y=250, center=True)
             # next frame
