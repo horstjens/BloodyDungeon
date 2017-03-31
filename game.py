@@ -210,161 +210,42 @@ class PygView(object):
                 if event.type == pygame.QUIT:
                     running = False 
                 elif event.type == pygame.KEYDOWN:
+                    x = PygView.width // 2 + 30
+                    y = PygView.height // 2 + 30 
                     if event.key == pygame.K_q:
                         if self.lastdir == "right":
-                            FlyingObject(bild=self.feuerpfeil_ost, 
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = 200,
-                                         dy = 0
-                                         )
+                            FlyingObject(self.feuerpfeil_ost, 
+                                         x, y, 200, 0)
                         if self.lastdir == "left":
-                            FlyingObject(bild=self.feuerpfeil_west, 
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = -200,
-                                         dy = 0
-                                         )
+                            FlyingObject(self.feuerpfeil_west, 
+                                         x, y, -200, 0)
                         if self.lastdir == "down":
-                            FlyingObject(bild=self.feuerpfeil_süd, 
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = 0,
-                                         dy = 200
-                                         )
+                            FlyingObject(self.feuerpfeil_süd, 
+                                         x, y, 0, 200)
                         if self.lastdir == "up":
-                            FlyingObject(bild=self.feuerpfeil_nord, 
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = 0,
-                                         dy = -200
-                                         )
+                            FlyingObject(self.feuerpfeil_nord, 
+                                         x, y, 0, -200)
                     if event.key == pygame.K_w:
                         if self.lastdir == "right":
-                            FlyingObject(bild=self.feuerpfeil_ost,
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = 200,
-                                         dy = 14
-                                         )
-                            FlyingObject(bild=self.feuerpfeil_ost,
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = 200,
-                                         dy = 7
-                                         )
-                            FlyingObject(bild=self.feuerpfeil_ost,
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = 200,
-                                         dy = 0
-                                         )
-                            FlyingObject(bild=self.feuerpfeil_ost,
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = 200,
-                                         dy = -7
-                                         )
-                            FlyingObject(bild=self.feuerpfeil_ost,
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = 200,
-                                         dy = -14
-                                         )
+                            for z in  (14, 7, 0, -7 -14):
+                                  FlyingObject(self.feuerpfeil_ost,
+                                         x, y, 200, z)                                         
                                                       
-                        if self.lastdir == "left":             
-                            FlyingObject(bild=self.feuerpfeil_west,
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = -200,
-                                         dy = 14
-                                         )
-                            FlyingObject(bild=self.feuerpfeil_west,
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = -200,
-                                         dy = 7
-                                         )
-                            FlyingObject(bild=self.feuerpfeil_west,
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = -200,
-                                         dy = 0
-                                         )
-                            FlyingObject(bild=self.feuerpfeil_west,
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = -200,
-                                         dy = -7
-                                         )
-                            FlyingObject(bild=self.feuerpfeil_west,
-                                         x=PygView.width // 2,
-                                         y=PygView.height // 2,
-                                         dx = -200,
-                                         dy = -14
-                                         )                                                    
+                        if self.lastdir == "left":  
+                            for z in  (14, 7, 0, -7 -14):
+                                  FlyingObject(self.feuerpfeil_west,
+                                         x, y, -200, z)                                 
+                            
                         if self.lastdir == "down":
-                            FlyingObject(bild=self.feuerpfeil_süd,
-                                     x=PygView.width // 2,
-                                     y=PygView.height // 2,
-                                     dx = 14,
-                                     dy = 200
-                                     )
-                            FlyingObject(bild=self.feuerpfeil_süd,
-                                     x=PygView.width // 2,
-                                     y=PygView.height // 2,
-                                     dx = 7,
-                                     dy = 200
-                                     )
-                            FlyingObject(bild=self.feuerpfeil_süd,
-                                     x=PygView.width // 2,
-                                     y=PygView.height // 2,
-                                     dx = 0,
-                                     dy = 200
-                                     )
-                            FlyingObject(bild=self.feuerpfeil_süd,
-                                     x=PygView.width // 2,
-                                     y=PygView.height // 2,
-                                     dx = -7,
-                                     dy = 200
-                                     )
-                            FlyingObject(bild=self.feuerpfeil_süd,
-                                     x=PygView.width // 2,
-                                     y=PygView.height // 2,
-                                     dx = -14,
-                                     dy = 200
-                                     )                                    
+                            for z in  (14, 7, 0, -7 -14):
+                                  FlyingObject(self.feuerpfeil_süd,
+                                         x, y, z, 200)                      
+                                                     
                         if self.lastdir == "up":
-                            FlyingObject(bild=self.feuerpfeil_nord,
-                                     x=PygView.width // 2,
-                                     y=PygView.height // 2,
-                                     dx = 14,
-                                     dy = -200
-                                     )
-                            FlyingObject(bild=self.feuerpfeil_nord,
-                                     x=PygView.width // 2,
-                                     y=PygView.height // 2,
-                                     dx = 7,
-                                     dy = -200
-                                     )
-                            FlyingObject(bild=self.feuerpfeil_nord,
-                                     x=PygView.width // 2,
-                                     y=PygView.height // 2,
-                                     dx = 0,
-                                     dy = -200
-                                     )
-                            FlyingObject(bild=self.feuerpfeil_nord,
-                                     x=PygView.width // 2,
-                                     y=PygView.height // 2,
-                                     dx = -7,
-                                     dy = -200
-                                     )
-                            FlyingObject(bild=self.feuerpfeil_nord,
-                                     x=PygView.width // 2,
-                                     y=PygView.height // 2,
-                                     dx = -14,
-                                     dy = -200
-                                     )                                    
+                            for z in  (14, 7, 0, -7 -14):
+                                  FlyingObject(self.feuerpfeil_nord,
+                                         x, y, z, -200)                      
+                            
                                                            
                     if event.key == pygame.K_ESCAPE:
                         running = False
