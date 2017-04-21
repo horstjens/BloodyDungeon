@@ -35,7 +35,9 @@ class Player(object):
         self.y=y
         self.X = self.x
         self.Y = self.y
+        self.hitpoints = 100
         self.image=pygame.image.load(os.path.join("data", imagename))
+        self.rect = self.image.get_rect()
     
     def update(self, seconds):
         pass
@@ -48,13 +50,14 @@ class FlyingObject(pygame.sprite.Sprite):
     number = 0
     numbers = {}
     
-    def __init__(self, bild, x, y, dx, dy):
+    def __init__(self, bild, x, y, dx, dy, damage = 0):
         self._layer = 5  # self.layer = layer
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.number = FlyingObject.number
         FlyingObject.number += 1
         FlyingObject.numbers[self.number] = self
         self.image = bild
+        self.damage = damage
         self.x = x
         self.y = y
         self.dx = dx
@@ -188,6 +191,7 @@ class PygView(object):
         self.allgroup = pygame.sprite.LayeredUpdates()
         self.flygroup = pygame.sprite.Group() 
         FlyingObject.groups = self.allgroup, self.flygroup
+        Player.groups = self.allgroup
         
         # for drawing
 
@@ -201,7 +205,7 @@ class PygView(object):
     def run(self):
         """The mainloop"""
         self.delta = 60
-
+        pygame.display.set_caption("Press ESC to quit. Player1 hp {}".format(self.player1.hitpoints))
         self.mapdx = 4 * self.delta  #
         self.mapdy = 1 * self.delta  #
         self.fx = 1 # field of tilemap. 0,0 is left upper corner
@@ -212,6 +216,7 @@ class PygView(object):
         running = True
         self.lastdir = "up"
         while running:
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False 
@@ -221,40 +226,40 @@ class PygView(object):
                     if event.key == pygame.K_q:
                         if self.lastdir == "right":
                             FlyingObject(self.feuerpfeil_ost, 
-                                         x-5, y-10, 200, 0
+                                         x-5, y-10, 200, 0, damage = 5
                                          )
                         if self.lastdir == "left":
                             FlyingObject(self.feuerpfeil_west, 
-                                         x-5, y-10, -200, 0
+                                         x-5, y-10, -200, 0, damage = 5
                                          )
                         if self.lastdir == "down":
                             FlyingObject(self.feuerpfeil_süd, 
-                                         x-5, y-10, 0, 200
+                                         x-5, y-10, 0, 200, damage = 5
                                          )
                         if self.lastdir == "up":
                             FlyingObject(self.feuerpfeil_nord, 
-                                         x-5, y-10, 0, -200
+                                         x-5, y-10, 0, -200, damage = 5
                                          )
                     if event.key == pygame.K_w:
                         if self.lastdir == "right":
                             for z in (14, 7, 0, -7, -14):
                                 FlyingObject(self.feuerpfeil_ost,
-                                         x-5, y-10, 200, z
+                                         x-5, y-10, 200, z, damage = 3
                                          )                                                 
                         if self.lastdir == "left":
                             for z in (14, 7, 0, -7, -14):          
                                 FlyingObject(self.feuerpfeil_west,
-                                         x-5, y-10, -200, z
+                                         x-5, y-10, -200, z, damage = 3
                                          )                           
                         if self.lastdir == "down":
                             for z in (14, 7, 0, -7, -14):
                                 FlyingObject(self.feuerpfeil_süd,
-                                     x-5, y-10, z, 200
+                                     x-5, y-10, z, 200, damage = 3
                                      )                      
                         if self.lastdir == "up":
                             for z in (14, 7, 0, -7, -14):
                                 FlyingObject(self.feuerpfeil_nord,
-                                     x-5, y-10, z, -200
+                                     x-5, y-10, z, -200, damage = 3
                                      )                     
                                                            
                     if event.key == pygame.K_ESCAPE:
@@ -347,25 +352,25 @@ class PygView(object):
             
             if random.random() < 0.5:
                  FlyingObject(self.feuerpfeil_süd, 
-                              self.monster1.x+30, self.monster1.y+30, 0, 100)  
+                              self.monster1.x+30, self.monster1.y+30, 0, 100, damage = 2)  
             if random.random() < 0.1:
                 bild = random.choice((self.eispfeil_süd, self.eispfeil_nord, self.eispfeil_ost, self.eispfeil_west))
                 if bild == self.eispfeil_süd:
                     dx = random.randint(-10,10)
                     dy = random.randint(50,100)
-                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy)
+                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy, damage = 1)
                 if bild == self.eispfeil_nord:
                     dx = random.randint(-10,10)
                     dy = random.randint(-100,-50)
-                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy)                                     
+                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy, damage = 1)                                     
                 if bild == self.eispfeil_ost:
                     dx = random.randint(50,100)
                     dy = random.randint(-10,10)
-                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy)
+                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy, damage = 1)
                 if bild == self.eispfeil_west:
                     dx = random.randint(-100,-50)
                     dy = random.randint(-10,10)
-                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy)
+                    FlyingObject(bild, self.monster2.x+50, self.monster2.y+30, dx, dy, damage = 1)
             
             # end of event handler
             milliseconds = self.clock.tick(self.fps) #
@@ -381,6 +386,17 @@ class PygView(object):
             #    myball.update(seconds)
             #for myball in self.ballgroup:
             #    myball.blit(self.screen)
+            #---------- collision detection-----------------
+            for  p in self.playergroup:
+                #print(p.hitpoints)
+                crashgroup = pygame.sprite.spritecollide(p, self.flygroup, False)
+                for arrow in crashgroup:
+                    print("arrow")
+                    p.hitpoints -= arrow.damage
+                    arrow.kill()
+            
+            
+            #-----------bliting------------
             for p in self.playergroup:
                 p.blit(self.screen)
             for m in self.monstergroup:
