@@ -1,0 +1,4 @@
+image files in data folder are taken from
+the GPL-licensed "Battle of wesnoth"
+or from Pixabay.com ( cc-0 licensed )
+
